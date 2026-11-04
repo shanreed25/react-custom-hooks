@@ -1,11 +1,15 @@
 import { useState } from 'react'
 import './App.css'
+import PaginationDemo from './components/PaginationDemo'
+import { styles } from './styles/styles'
 
 function App() {
 
   return (
-    <div className="min-h-screen bg-[#0C0618] text-white">
-     <h1>Custom Hooks</h1>
+    <div className={styles.app}>
+     <h1 className="text-5xl">Custom Hooks</h1>
+
+     <PaginationDemo />
     </div>
   )
 }
