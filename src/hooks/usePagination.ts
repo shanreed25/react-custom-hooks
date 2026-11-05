@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import type  {PaginationOptions, PaginationResults } from "../types";
 import { clamp, getValidPage } from "../utils/utils";
 
@@ -53,17 +53,17 @@ export default function usePagination({totalItems, itemsPerPage = 10, initialPag
 
 
     
-    function nextPage(): void {
+    const nextPage = useCallback((): void => {
         setRequestedPage(clamp(1, totalPages, currentPage + 1))
-    }
+    },[currentPage, totalPages] )
 
-    function prevPage(): void {
+    const prevPage = useCallback((): void => {
         setRequestedPage(clamp(1, totalPages, currentPage - 1))
-    }
+    }, [currentPage, totalPages])
 
-    function setPage(pageNumber: number): void{
+    const setPage = useCallback((pageNumber: number): void =>{
         setRequestedPage((page) => getValidPage(totalPages, pageNumber, page))
-    }
+    },[totalPages])
 
     
 
