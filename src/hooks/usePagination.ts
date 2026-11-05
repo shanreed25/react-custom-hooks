@@ -14,19 +14,17 @@ export default function usePagination({totalItems, itemsPerPage = 10, initialPag
     //index starts a 0, pages start at 1
     //suntracting 1 will get the correct index
     const pagesBeforeCurrent = (currentPage - 1)
-
     //the number of skipped items is the same number of the index of the first item on the page
     const itemsToSkip = pagesBeforeCurrent * itemsPerPage
+    const startIndex = itemsToSkip
 
     const currentPageLastIndex = itemsToSkip + itemsPerPage -1
     const listLastIndex = totalItems -1 
-
-    const startIndex = itemsToSkip
-
-    //smallest number wins
-    const endIndex = Math.min(currentPageLastIndex, listLastIndex)
+    const endIndex = Math.min(currentPageLastIndex, listLastIndex) //smallest number wins
 
     const totalPages = Math.ceil(totalItems / itemsPerPage)
+    const canNextPage = currentPage < totalPages
+    const canPrevPage = currentPage > 2
 
     function nextPage(): void {
         setCurrentPage((page) => clamp(1, totalPages, page + 1))
@@ -36,13 +34,17 @@ export default function usePagination({totalItems, itemsPerPage = 10, initialPag
         setCurrentPage((page) => clamp(1, totalPages, page - 1))
     }
 
+    
+
     return {
         currentPage: currentPage,
         totalPages: numOfPages,
         startIndex: startIndex,
         endIndex: endIndex,
         nextPage: nextPage,
-        prevPage: prevPage
+        prevPage: prevPage,
+        canNextPage: canNextPage,
+        canPrevPage: canPrevPage
     }
 
 

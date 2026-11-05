@@ -13,5 +13,7 @@ export interface PaginationResults{
     endIndex: number;
     nextPage:() => void;
     prevPage:() => void;
+    canNextPage: boolean;
+    canPrevPage: boolean;
     // itemsPerPage?: number;
 }

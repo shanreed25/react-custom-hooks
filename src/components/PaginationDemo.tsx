@@ -19,8 +19,16 @@ const ITEMSLIST: string[] = Array.from(
 export default function PaginationDemo() {
   //get total pages from the hook results
   //itemsPerPage can be passed or not becuse there is a default value
-  const { currentPage, totalPages, startIndex, endIndex, nextPage, prevPage } =
-    usePagination({ totalItems: ITEMSLIST.length });
+  const {
+    currentPage,
+    totalPages,
+    startIndex,
+    endIndex,
+    nextPage,
+    prevPage,
+    canNextPage,
+    canPrevPage,
+  } = usePagination({ totalItems: ITEMSLIST.length });
 
   //slice will stop before endIndex so adding one include the last item
   const itemsToShow = ITEMSLIST.slice(startIndex, endIndex + 1);
@@ -58,21 +66,27 @@ export default function PaginationDemo() {
         </ul>
       </div>
 
-      <div className="flex items-center gap-4 mt-4">
+      <div className="flex justify-between items-center gap-4 mt-4">
         <div>
           <button
             onClick={prevPage}
+            disabled={!canPrevPage}
             className="px-4 py-2 rounded bg-violet-600 hover:bg-violet-500"
           >
             Previous
           </button>
         </div>
+
         <div>
-          <p>Page {currentPage} of {totalPages}</p>
+          <p>
+            Page {currentPage} of {totalPages}
+          </p>
         </div>
+        
         <div>
           <button
             onClick={nextPage}
+            disabled={!canNextPage}
             className="px-4 py-2 rounded bg-violet-600 hover:bg-violet-500"
           >
             Next
