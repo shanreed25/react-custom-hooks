@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent  } from "react"
+import { useEffect, useState, type ChangeEvent  } from "react"
 import { styles } from "../styles/styles";
 import { useDebounce } from "../hooks/useDebounce";
 
@@ -10,6 +10,14 @@ export default function DebounceSearchDemo(){
 
     //debouncedSearchTerm is a string because T is inferred as a string
     const debouncedSearchTerm = useDebounce(searchText)
+
+    
+    useEffect(() => {
+        // do nothing for empty searches
+        if (debouncedSearchTerm === "")  return
+
+        console.log(`Searching for: ${debouncedSearchTerm}`);
+    }, [debouncedSearchTerm])
 
     function handleSearchChange(e: ChangeEvent<HTMLInputElement>): void {
         setSearchText(e.target.value)
