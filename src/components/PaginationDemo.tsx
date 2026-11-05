@@ -47,7 +47,7 @@ export default function PaginationDemo() {
   }
 
   return (
-    <section className="w-3xl border rounded-sm p-10 text-center">
+    <section className={`${styles.section} text-center`}>
       <h2 className="text-3xl mb-10">Pagination Demo</h2>
       <div className="flex justify-between mb-10">
         <div>
@@ -55,7 +55,7 @@ export default function PaginationDemo() {
           <select
             value={itemsPerPage}
             onChange={handleItemsPerPageChange}
-            className="bg-white text-[#0C0618] ml-3"
+            className="cursor-pointer bg-white text-[#0C0618] ml-3"
           >
             {ITEMS_PER_PAGE.map((numOfItems) => (
               <option key={numOfItems} value={numOfItems}>
@@ -87,7 +87,7 @@ export default function PaginationDemo() {
           <button
             onClick={prevPage}
             disabled={!canPrevPage}
-            className="px-4 py-2 rounded bg-violet-600 hover:bg-violet-500"
+            className="cursor-pointer px-4 py-2 rounded bg-violet-600 hover:bg-violet-500"
           >
             Previous
           </button>
@@ -103,7 +103,7 @@ export default function PaginationDemo() {
           <button
             onClick={nextPage}
             disabled={!canNextPage}
-            className="px-4 py-2 rounded bg-violet-600 hover:bg-violet-500"
+            className="cursor-pointer px-4 py-2 rounded bg-violet-600 hover:bg-violet-500 disabled:opacity-30 disabled:cursor-not-allowed"
           >
             Next
           </button>
