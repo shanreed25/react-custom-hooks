@@ -11,5 +11,7 @@ export interface PaginationResults{
     totalPages: number;
     startIndex: number;
     endIndex: number;
+    nextPage:() => void;
+    prevPage:() => void;
     // itemsPerPage?: number;
 }

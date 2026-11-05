@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type  {PaginationOptions, PaginationResults } from "../types";
+import { clamp } from "../utils/utils";
 
 
 export default function usePagination({totalItems, itemsPerPage = 10, initialPage = 1}: PaginationOptions): PaginationResults{
@@ -25,11 +26,23 @@ export default function usePagination({totalItems, itemsPerPage = 10, initialPag
     //smallest number wins
     const endIndex = Math.min(currentPageLastIndex, listLastIndex)
 
+    const totalPages = Math.ceil(totalItems / itemsPerPage)
+
+    function nextPage(): void {
+        setCurrentPage((page) => clamp(1, totalPages, page + 1))
+    }
+
+    function prevPage(): void {
+        setCurrentPage((page) => clamp(1, totalPages, page - 1))
+    }
+
     return {
         currentPage: currentPage,
         totalPages: numOfPages,
         startIndex: startIndex,
-        endIndex: endIndex
+        endIndex: endIndex,
+        nextPage: nextPage,
+        prevPage: prevPage
     }
 
 
