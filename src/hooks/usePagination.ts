@@ -9,6 +9,8 @@ export default function usePagination({totalItems, itemsPerPage = 10, initialPag
     let numOfPages = totalItems / itemsPerPage//this can be a decimal, so i need to round up
     numOfPages = Math.ceil(numOfPages)
 
+
+    //=================Start Index===================================================================
     //how many items come before the current page is the
     //  same number as the index of the pages's first item
     //index starts a 0, pages start at 1
@@ -18,14 +20,24 @@ export default function usePagination({totalItems, itemsPerPage = 10, initialPag
     const itemsToSkip = pagesBeforeCurrent * itemsPerPage
     const startIndex = itemsToSkip
 
+
+    //=================End Index===========================================================================
     const currentPageLastIndex = itemsToSkip + itemsPerPage -1
     const listLastIndex = totalItems -1 
     const endIndex = Math.min(currentPageLastIndex, listLastIndex) //smallest number wins
 
+
+    //==========================Items for current page=====================================================
+    const itemsOnCurrentPage = endIndex - startIndex + 1;
+
+
     const totalPages = Math.ceil(totalItems / itemsPerPage)
+    //=================Can Prev and next===================================================================
     const canNextPage = currentPage < totalPages
     const canPrevPage = currentPage > 2
 
+
+    
     function nextPage(): void {
         setCurrentPage((page) => clamp(1, totalPages, page + 1))
     }
@@ -44,7 +56,8 @@ export default function usePagination({totalItems, itemsPerPage = 10, initialPag
         nextPage: nextPage,
         prevPage: prevPage,
         canNextPage: canNextPage,
-        canPrevPage: canPrevPage
+        canPrevPage: canPrevPage,
+        itemsOnCurrentPage: itemsOnCurrentPage
     }
 
 

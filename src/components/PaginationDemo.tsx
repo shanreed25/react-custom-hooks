@@ -28,6 +28,7 @@ export default function PaginationDemo() {
     prevPage,
     canNextPage,
     canPrevPage,
+    itemsOnCurrentPage
   } = usePagination({ totalItems: ITEMSLIST.length });
 
   //slice will stop before endIndex so adding one include the last item
@@ -92,6 +93,10 @@ export default function PaginationDemo() {
             Next
           </button>
         </div>
+      </div>
+
+      <div>
+        <p>Showing items {startIndex +1} - {endIndex + 1} (Total on this page: {itemsOnCurrentPage})</p>
       </div>
     </section>
   );
