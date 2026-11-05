@@ -9,5 +9,7 @@ export interface PaginationOptions {
 export interface PaginationResults{
     currentPage: number;
     totalPages: number;
+    startIndex: number;
+    endIndex: number;
     // itemsPerPage?: number;
 }

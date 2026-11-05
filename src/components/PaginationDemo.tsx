@@ -18,7 +18,10 @@ export default function PaginationDemo(){
 
     //get total pages from the hook results
     //itemsPerPage can be passed or not becuse there is a default value
-    const { currentPage, totalPages } = usePagination({totalItems: ITEMSLIST.length})
+    const { currentPage, totalPages, startIndex, endIndex } = usePagination({totalItems: ITEMSLIST.length})
+
+    //slice will stop before endIndex so adding one include the last item
+    const itemsToShow = ITEMSLIST.slice(startIndex, endIndex + 1)
 
     function handleItemsPerPageChange(e: ChangeEvent<HTMLSelectElement>): void {
         console.log("Changed")
@@ -43,7 +46,7 @@ export default function PaginationDemo(){
         </div>
         <div className="flex">
             <ul>
-            {ITEMSLIST.map((item) => (
+            {itemsToShow.map((item) => (
                 <li key={item}>{item}</li>
 
             ))}
