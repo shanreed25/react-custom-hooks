@@ -1,4 +1,5 @@
-
+import type { ChangeEvent } from "react";
+import usePagination from "../hooks/usePagination";
 
 
 /*
@@ -15,7 +16,13 @@ const ITEMSLIST: string[] = Array.from({ length: 123 }, (_, index) => `Item ${in
 
 export default function PaginationDemo(){
 
+    //get total pages from the hook results
+    //itemsPerPage can be passed or not becuse there is a default value
+    const { totalPages, itemsPerPage } = usePagination({totalItems: ITEMSLIST.length})
 
+    function handleItemsPerPageChange(e: ChangeEvent<HTMLSelectElement>): void {
+        console.log("Changed")
+    }
 
     return (
         <section className="w-3xl border rounded-sm p-10 text-center">
@@ -23,7 +30,12 @@ export default function PaginationDemo(){
         <div className="flex justify-between mb-10">
             <div>
                 <label>Items per page:</label>
-                <input type="number" />
+                <select value={itemsPerPage} onChange={handleItemsPerPageChange} className="bg-white text-[#0C0618] ml-3">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
             </div>
             <div>
                 <p>Total Items: {ITEMSLIST.length}</p>
@@ -36,6 +48,16 @@ export default function PaginationDemo(){
 
             ))}
         </ul>
+        </div>
+
+        <div>
+            <div>
+                <p>Previous</p>
+            </div>
+            <div>
+                Page # of {totalPages}
+            </div>
+            <div></div>
         </div>
         
         </section>
