@@ -1,10 +1,16 @@
 import { useState } from "react";
 import type  {PaginationOptions, PaginationResults } from "../types";
-import { clamp } from "../utils/utils";
+import { clamp, getValidPage } from "../utils/utils";
 
 
 export default function usePagination({totalItems, itemsPerPage = 10, initialPage = 1}: PaginationOptions): PaginationResults{
-    const [currentPage, setCurrentPage] = useState(initialPage); // initial value needs to be stored and only read on first render
+
+    //neds to be above useState because it now needs totalPages
+    const totalPages = Math.ceil(totalItems / itemsPerPage)
+
+    const [currentPage, setCurrentPage] = useState(() =>
+       getValidPage(totalPages, initialPage, 1)
+ ) // initial value needs to be stored and only read on first render
     
     let numOfPages = totalItems / itemsPerPage//this can be a decimal, so i need to round up
     numOfPages = Math.ceil(numOfPages)
@@ -31,7 +37,7 @@ export default function usePagination({totalItems, itemsPerPage = 10, initialPag
     const itemsOnCurrentPage = endIndex - startIndex + 1;
 
 
-    const totalPages = Math.ceil(totalItems / itemsPerPage)
+
     //=================Can Prev and next===================================================================
     const canNextPage = currentPage < totalPages
     const canPrevPage = currentPage > 2
@@ -47,11 +53,7 @@ export default function usePagination({totalItems, itemsPerPage = 10, initialPag
     }
 
     function setPage(pageNumber: number): void{
-        if (Number.isNaN(pageNumber)){
-            return
-        }
-
-        setCurrentPage(clamp(1, totalPages, Math.floor(pageNumber)))
+        setCurrentPage((page) => getValidPage(totalPages, pageNumber, page))
     }
 
     
