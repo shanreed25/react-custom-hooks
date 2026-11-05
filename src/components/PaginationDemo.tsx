@@ -13,7 +13,7 @@ Array.from({ length: 123 }): builds an array of 123 items: [undefined, undefined
 */
 
 const ITEMSLIST: string[] = Array.from(
-  { length: 123 },
+  { length: 1 },
   (_, index) => `Item ${index + 1}`,
 );
 
@@ -62,13 +62,19 @@ export default function PaginationDemo() {
           <p>Total Items: {ITEMSLIST.length}</p>
         </div>
       </div>
-      <div className="flex">
+
+      {itemsOnCurrentPage === 0 ? (
+             <p className="mb-4 italic text-gray-400">No items to display</p>
+      ) : (
+        <div className="flex">
         <ul>
           {itemsToShow.map((item) => (
             <li key={item}>{item}</li>
           ))}
         </ul>
       </div>
+      )}
+      
 
       <div className="flex justify-between items-center gap-4 mt-4">
         <div>

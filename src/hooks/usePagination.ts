@@ -5,8 +5,14 @@ import { clamp, getValidPage } from "../utils/utils";
 
 export default function usePagination({totalItems, itemsPerPage = 10, initialPage = 1}: PaginationOptions): PaginationResults{
 
-    //neds to be above useState because it now needs totalPages
-    const totalPages = Math.ceil(totalItems / itemsPerPage)
+    //10 only applies when itemsPerPage is not passed
+    //passing a invalid number like a negative number or 0
+    //needs to be handled, so either of these is just treated as 1
+    const pageSize = Math.max(1, itemsPerPage);
+
+    //needs to be above useState because it now needs totalPages
+    //keeps at least 1 page, so an empty list shows "Page 1 of 1"
+    const totalPages = Math.ceil(totalItems / pageSize)
 
     const [currentPage, setCurrentPage] = useState(() =>
        getValidPage(totalPages, initialPage, 1)
@@ -23,12 +29,12 @@ export default function usePagination({totalItems, itemsPerPage = 10, initialPag
     //suntracting 1 will get the correct index
     const pagesBeforeCurrent = (currentPage - 1)
     //the number of skipped items is the same number of the index of the first item on the page
-    const itemsToSkip = pagesBeforeCurrent * itemsPerPage
+    const itemsToSkip = pagesBeforeCurrent * pageSize
     const startIndex = itemsToSkip
 
 
     //=================End Index===========================================================================
-    const currentPageLastIndex = itemsToSkip + itemsPerPage -1
+    const currentPageLastIndex = itemsToSkip + pageSize -1
     const listLastIndex = totalItems -1 
     const endIndex = Math.min(currentPageLastIndex, listLastIndex) //smallest number wins
 
