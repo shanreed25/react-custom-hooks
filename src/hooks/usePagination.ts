@@ -12,15 +12,18 @@ export default function usePagination({totalItems, itemsPerPage = 10, initialPag
 
     //needs to be above useState because it now needs totalPages
     //keeps at least 1 page, so an empty list shows "Page 1 of 1"
-    const totalPages = Math.ceil(totalItems / pageSize)
+    const totalPages = Math.max(1, Math.ceil(totalItems / pageSize))
 
-    const [currentPage, setCurrentPage] = useState(() =>
+    const [requestedPage, setRequestedPage] = useState(() =>
        getValidPage(totalPages, initialPage, 1)
  ) // initial value needs to be stored and only read on first render
     
-    let numOfPages = totalItems / itemsPerPage//this can be a decimal, so i need to round up
-    numOfPages = Math.ceil(numOfPages)
+    // let numOfPages = totalItems / itemsPerPage//this can be a decimal, so i need to round up
+    // numOfPages = Math.ceil(numOfPages)
 
+
+    //the current page that shows
+    const currentPage = clamp(1, totalPages, requestedPage, );
 
     //=================Start Index===================================================================
     //how many items come before the current page is the
@@ -46,27 +49,27 @@ export default function usePagination({totalItems, itemsPerPage = 10, initialPag
 
     //=================Can Prev and next===================================================================
     const canNextPage = currentPage < totalPages
-    const canPrevPage = currentPage > 2
+    const canPrevPage = currentPage > 1
 
 
     
     function nextPage(): void {
-        setCurrentPage((page) => clamp(1, totalPages, page + 1))
+        setRequestedPage(clamp(1, totalPages, currentPage + 1))
     }
 
     function prevPage(): void {
-        setCurrentPage((page) => clamp(1, totalPages, page - 1))
+        setRequestedPage(clamp(1, totalPages, currentPage - 1))
     }
 
     function setPage(pageNumber: number): void{
-        setCurrentPage((page) => getValidPage(totalPages, pageNumber, page))
+        setRequestedPage((page) => getValidPage(totalPages, pageNumber, page))
     }
 
     
 
     return {
         currentPage: currentPage,
-        totalPages: numOfPages,
+        totalPages: totalPages,
         startIndex: startIndex,
         endIndex: endIndex,
         nextPage: nextPage,

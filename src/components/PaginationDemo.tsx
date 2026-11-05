@@ -1,4 +1,4 @@
-import type { ChangeEvent } from "react";
+import { useState, type ChangeEvent } from "react";
 import usePagination from "../hooks/usePagination";
 import { styles } from "../styles/styles";
 
@@ -12,12 +12,16 @@ Array.from({ length: 123 }): builds an array of 123 items: [undefined, undefined
         Position start at 0 so to name each item, Item 1, Item 2 etc..... 1 is added to the index to get Item 1 to Item 123
 */
 
-const ITEMSLIST: string[] = Array.from(
-  { length: 1 },
+const ITEMS_LIST: string[] = Array.from(
+  { length: 123 },
   (_, index) => `Item ${index + 1}`,
 );
 
+const ITEMS_PER_PAGE: number[] = [5, 10, 15, 20];
+
 export default function PaginationDemo() {
+
+  const [itemsPerPage, setItemsPerPage] = useState(10)
   //get total pages from the hook results
   //itemsPerPage can be passed or not becuse there is a default value
   const {
@@ -31,13 +35,14 @@ export default function PaginationDemo() {
     canNextPage,
     canPrevPage,
     itemsOnCurrentPage
-  } = usePagination({ totalItems: ITEMSLIST.length });
+  } = usePagination({ totalItems: ITEMS_LIST.length, itemsPerPage });
 
   const pageNums = Array.from({length: totalPages}, (_, index) => index + 1)
   //slice will stop before endIndex so adding one include the last item
-  const itemsToShow = ITEMSLIST.slice(startIndex, endIndex + 1);
+  const itemsToShow = ITEMS_LIST.slice(startIndex, endIndex + 1);
 
   function handleItemsPerPageChange(e: ChangeEvent<HTMLSelectElement>): void {
+    setItemsPerPage(Number(e.target.value))
     console.log("Changed");
   }
 
@@ -48,18 +53,19 @@ export default function PaginationDemo() {
         <div>
           <label>Items per page:</label>
           <select
-            value="10"
+            value={itemsPerPage}
             onChange={handleItemsPerPageChange}
             className="bg-white text-[#0C0618] ml-3"
           >
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
-            <option value="20">20</option>
+            {ITEMS_PER_PAGE.map((numOfItems) => (
+              <option key={numOfItems} value={numOfItems}>
+                {numOfItems}
+              </option>
+            ))}
           </select>
         </div>
         <div>
-          <p>Total Items: {ITEMSLIST.length}</p>
+          <p>Total Items: {ITEMS_LIST.length}</p>
         </div>
       </div>
 
@@ -108,7 +114,7 @@ export default function PaginationDemo() {
         <p>Showing items {startIndex +1} - {endIndex + 1} (Total on this page: {itemsOnCurrentPage})</p>
       </div>
 
-      <div className="flex  flex-warp gap-3 mt-4">
+      <div className="flex  flex-wrap gap-3 mt-4">
         {pageNums.map((pageNum) => {
           const currPage = pageNum === currentPage
 
