@@ -1,5 +1,6 @@
 import type { ChangeEvent } from "react";
 import usePagination from "../hooks/usePagination";
+import { styles } from "../styles/styles";
 
 /*
 constant for the items list
@@ -26,11 +27,13 @@ export default function PaginationDemo() {
     endIndex,
     nextPage,
     prevPage,
+    setPage,
     canNextPage,
     canPrevPage,
     itemsOnCurrentPage
   } = usePagination({ totalItems: ITEMSLIST.length });
 
+  const pageNums = Array.from({length: totalPages}, (_, index) => index + 1)
   //slice will stop before endIndex so adding one include the last item
   const itemsToShow = ITEMSLIST.slice(startIndex, endIndex + 1);
 
@@ -97,6 +100,23 @@ export default function PaginationDemo() {
 
       <div>
         <p>Showing items {startIndex +1} - {endIndex + 1} (Total on this page: {itemsOnCurrentPage})</p>
+      </div>
+
+      <div className="flex  flex-warp gap-3 mt-4">
+        {pageNums.map((pageNum) => {
+          const currPage = pageNum === currentPage
+
+          return (
+            <button 
+            key={pageNum}
+            disabled={currPage}
+            onClick={() => setPage(pageNum)}
+            className={currPage ? styles.activePageBtn : styles.pageBtn}
+            >
+              {pageNum}
+            </button>
+          )
+        })}
       </div>
     </section>
   );

@@ -46,6 +46,14 @@ export default function usePagination({totalItems, itemsPerPage = 10, initialPag
         setCurrentPage((page) => clamp(1, totalPages, page - 1))
     }
 
+    function setPage(pageNumber: number): void{
+        if (Number.isNaN(pageNumber)){
+            return
+        }
+
+        setCurrentPage(clamp(1, totalPages, Math.floor(pageNumber)))
+    }
+
     
 
     return {
@@ -55,6 +63,7 @@ export default function usePagination({totalItems, itemsPerPage = 10, initialPag
         endIndex: endIndex,
         nextPage: nextPage,
         prevPage: prevPage,
+        setPage: setPage,
         canNextPage: canNextPage,
         canPrevPage: canPrevPage,
         itemsOnCurrentPage: itemsOnCurrentPage

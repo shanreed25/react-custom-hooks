@@ -9,12 +9,13 @@ export interface PaginationOptions {
 export interface PaginationResults{
     currentPage: number;
     totalPages: number;
-    startIndex: number;
-    endIndex: number;
+    startIndex: number;//starting index of items for the current page (0-based)
+    endIndex: number;// ending index of items for the current page (0-based)
     nextPage:() => void;
     prevPage:() => void;
+    setPage: (pageNumber: number) => void;//function to jump to a specific page number
     canNextPage: boolean;
     canPrevPage: boolean;
-    itemsOnCurrentPage: number;
+    itemsOnCurrentPage: number;//actual number of items on the current page 
     // itemsPerPage?: number;
 }
