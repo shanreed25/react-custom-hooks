@@ -47,3 +47,36 @@ usePagination({ totalItems, itemsPerPage, initialPage })
 | `setPage` | `(pageNumber: number) => void` | Goes to a specific page |
 
 [More Information About the `usePagination` hook](./PAGINATION.md)
+
+
+## Debounce
+
+> The `useDebounce` hook delays updating a value until it has stopped changing for a set amount of time. Instead of running a search on every keystroke, the app waits until the user stops typing and then searches once.
+
+### Debounce Search Demo
+
+The Debounce Search Demo section of the app shows the hook in use. On the page you can:
+
+- Type in a search box and see the text update right away under **Current Input**
+- See the **Debounced Value** update only after you stop typing for the set delay
+- Change the delay (in milliseconds) with the number input
+- See simulated search results for the debounced value, or "Type to see results" when the search is empty
+
+The console logs `Searching for: ...` once each time the debounced value changes, not on every keystroke.
+
+### Parameters
+
+```ts
+useDebounce(value, delay)
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `value` | `T` (any type) | required | The value to debounce |
+| `delay` | `number` | `500` | How long to wait (in milliseconds) after the last change before updating |
+
+### Return value
+
+| Value | Type | Description |
+|---|---|---|
+| `debouncedValue` | `T` | The latest `value`, updated only after it has stopped changing for `delay` milliseconds |

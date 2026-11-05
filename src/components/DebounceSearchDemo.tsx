@@ -6,9 +6,9 @@ const RESULT_COUNT = 3;
 
 export default function DebounceSearchDemo() {
   const [searchText, setSearchText] = useState("");
-  const [delay, setDelay] = useState(1000);
+  const [delay, setDelay] = useState(500);
   //debouncedSearchTerm is a string because T is inferred as a string
-  const debouncedSearchTerm = useDebounce(searchText);
+  const debouncedSearchTerm = useDebounce(searchText, delay);
 
   const results = Array.from(
     { length: RESULT_COUNT },
@@ -17,14 +17,13 @@ export default function DebounceSearchDemo() {
 
   useEffect(() => {
     // do nothing for empty searches
-    if (debouncedSearchTerm === "") return;
+    if (debouncedSearchTerm.trim() === "") return;
 
     console.log(`Searching for: ${debouncedSearchTerm}`);
   }, [debouncedSearchTerm]);
 
   function handleSearchChange(e: ChangeEvent<HTMLInputElement>): void {
     setSearchText(e.target.value);
-    console.log("Changed");
   }
 
   function handleDelayChange(e: ChangeEvent<HTMLInputElement>): void {
@@ -40,7 +39,7 @@ export default function DebounceSearchDemo() {
         <label>Debounce Delay (ms):</label>
         <input
           type="number"
-          min={100}
+          min={0}
           step={100}
           value={delay}
           onChange={handleDelayChange}
