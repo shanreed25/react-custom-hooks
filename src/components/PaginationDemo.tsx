@@ -18,7 +18,7 @@ export default function PaginationDemo(){
 
     //get total pages from the hook results
     //itemsPerPage can be passed or not becuse there is a default value
-    const { totalPages, itemsPerPage } = usePagination({totalItems: ITEMSLIST.length})
+    const { currentPage, totalPages } = usePagination({totalItems: ITEMSLIST.length})
 
     function handleItemsPerPageChange(e: ChangeEvent<HTMLSelectElement>): void {
         console.log("Changed")
@@ -30,7 +30,7 @@ export default function PaginationDemo(){
         <div className="flex justify-between mb-10">
             <div>
                 <label>Items per page:</label>
-                <select value={itemsPerPage} onChange={handleItemsPerPageChange} className="bg-white text-[#0C0618] ml-3">
+                <select value="10" onChange={handleItemsPerPageChange} className="bg-white text-[#0C0618] ml-3">
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="15">15</option>
@@ -55,7 +55,7 @@ export default function PaginationDemo(){
                 <p>Previous</p>
             </div>
             <div>
-                Page # of {totalPages}
+                Page {currentPage} of {totalPages}
             </div>
             <div></div>
         </div>
