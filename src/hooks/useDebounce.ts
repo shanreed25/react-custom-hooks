@@ -9,9 +9,14 @@ export function useDebounce<T>(value: T, delay: number = 1000): T {
     const [debouncedValue, setDebounceValue] = useState(value);
 
     useEffect(() => {
-        setTimeout(() => {
+        // get the ID that setTimeout returns so the cleanup can cancel this exact timer
+        const timerId = setTimeout(() => {
             setDebounceValue(value)
         }, delay)
+
+        return () => {
+            clearTimeout(timerId)
+        }
     }, [value, delay])
 
     return debouncedValue;
