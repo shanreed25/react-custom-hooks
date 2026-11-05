@@ -1,9 +1,15 @@
 import { useState, type ChangeEvent  } from "react"
 import { styles } from "../styles/styles";
+import { useDebounce } from "../hooks/useDebounce";
+
+
 
 export default function DebounceSearchDemo(){
 
     const [searchText, setSearchText] = useState("")
+
+    //debouncedSearchTerm is a string because T is inferred as a string
+    const debouncedSearchTerm = useDebounce(searchText)
 
     function handleSearchChange(e: ChangeEvent<HTMLInputElement>): void {
         setSearchText(e.target.value)
@@ -18,8 +24,8 @@ export default function DebounceSearchDemo(){
             placeholder="Type to search...."
             value={searchText} 
             onChange={handleSearchChange} />
-            <p>Current Input:</p>
-            <p>Debounceed Value (after500ms):</p>
+            <p>Current Input: {searchText}</p>
+            <p>Debounceed Value (after500ms): {debouncedSearchTerm}</p>
             <p>Simulate Search Results:</p>
             <p>Type to see results</p>
         </section>
